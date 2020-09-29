@@ -22,10 +22,9 @@ class PlacesList extends React.Component {
   }
   render() {
     const results = this.props.posts.results;
-    console.log('results', results);
 
     return (
-      <div className="ui segment">
+      <div>
         <div className="ui list">{this.renderList()}</div>
       </div>
     );

@@ -7,8 +7,8 @@ class SearchBar extends React.Component {
   renderInput(formProps) {
     return (
       <div className="field">
-        <label>{formProps.label}</label>
-        <input {...formProps.input} autoComplete="off" />
+        <label htmlFor="city">{formProps.label}</label>
+        <input {...formProps.input} autoComplete="off" id="city" autoFocus />
       </div>
     );
   }
@@ -18,7 +18,6 @@ class SearchBar extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <form
         onSubmit={this.props.handleSubmit(this.onSubmit)}
