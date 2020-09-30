@@ -4,6 +4,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Home from './Home';
 import CityDetail from './CityDetail';
 
+import './App.css';
+
 const App = () => {
   return (
     <div>

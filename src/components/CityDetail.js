@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import './CityDetail.css';
 
 class CityDetail extends React.Component {
   renderList() {
@@ -15,7 +16,6 @@ class CityDetail extends React.Component {
     const temperature = results.currently
       ? results.currently.temperature
       : null;
-    // const calcHumidity = parseInt(results.currently.humidity) * 100;
     const humidity = results.currently
       ? results.currently.humidity * 100
       : null;
@@ -59,7 +59,7 @@ class CityDetail extends React.Component {
             <div className="item">
               <div className="content">
                 <div className="ui header">Temperature</div>
-                <div className="description">{`${temperature} degrees Fahrenheit`}</div>
+                <div className="description">{`${temperature} ℉ (degrees Fahrenheit)`}</div>
               </div>
             </div>
             <div className="item">

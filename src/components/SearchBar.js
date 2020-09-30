@@ -1,13 +1,18 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+
+import './Search.css';
+
 import { fetchPosts } from '../actions';
 
 class SearchBar extends React.Component {
   renderInput(formProps) {
+    console.log('formProps', formProps);
     return (
-      <div className="field">
+      <div className="field input-wrapper">
         <label htmlFor="city">{formProps.label}</label>
+        <label htmlFor="city" className="fas fa-search input-icon"></label>
         <input {...formProps.input} autoComplete="off" id="city" autoFocus />
       </div>
     );
@@ -26,7 +31,7 @@ class SearchBar extends React.Component {
         <Field
           name="term"
           component={this.renderInput}
-          label="ENTER FOR WHICH CITY YOU WANT WEATHER DATA"
+          label="ENTER CITY FOR WHICH YOU WANT WEATHER DATA"
         />
       </form>
     );
