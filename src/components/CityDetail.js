@@ -7,6 +7,13 @@ import './CityDetail.css';
 class CityDetail extends React.Component {
   renderList() {
     const results = this.props.weather;
+    const resultsPhotos = this.props.photos;
+    const photo1 = resultsPhotos[0];
+    const photo2 = resultsPhotos[1];
+    const photo3 = resultsPhotos[2];
+    const photo4 = resultsPhotos[3];
+
+    console.log('photo1', photo1);
     const timeUnix = results.currently ? results.currently.time : null;
     const calendar = moment
       .unix(timeUnix)
@@ -31,82 +38,94 @@ class CityDetail extends React.Component {
       pressure &&
       windSpeed &&
       visibility &&
-      ozone
+      ozone &&
+      photo1 &&
+      photo2 &&
+      photo3 &&
+      photo4
     ) {
       return (
-        <div>
-          <Link to="/">
-            <button className="ui button" onClick="window.location.relaod()">
+        <div className="wrapper">
+          {/* <Link to="/">
+            <button
+              className="ui button"
+              // onClick={() => window.location.reload()}
+            >
               Back
             </button>
-          </Link>
-          <div className="ui list">
-            <div className="item">
-              <div className="content">
-                <div className="ui header">Date:</div>
-                <div className="description">{calendar}</div>
-              </div>
+          </Link> */}
+
+          <div className="item weather-details">
+            <h2>
+              <i className="fas fa-cloud-rain"></i>Rain
+            </h2>
+            <div>
+              <h2>Summary</h2>
+              <p>{summary}</p>
             </div>
-            <div className="item">
-              <i className="fa"></i>
+            <div>
+              <h2>Temperature</h2>
+              <p>{`${temperature}  ºF (degrees Fahrenheit)`}</p>
             </div>
-            <div className="item">
-              <div className="content">
-                <div className="ui header">Summary</div>
-                <div className="description">{summary}</div>
-              </div>
+            <div>
+              <h2>Humidity</h2>
+              <p>{`${humidity} %`}</p>
             </div>
-            <div className="item">
-              <div className="content">
-                <div className="ui header">Temperature</div>
-                <div className="description">{`${temperature} ℉ (degrees Fahrenheit)`}</div>
-              </div>
+            <div>
+              <h2>Pressure</h2>
+              <p>{`${pressure} millibars`}</p>
             </div>
-            <div className="item">
-              <div className="content">
-                <div className="ui header"></div>
-                <div className="description">{}</div>
-              </div>
+            <div>
+              <h2>Wind Speed</h2>
+              <p>{`${windSpeed} miles per hour`}</p>
             </div>
-            <div className="item">
-              <div className="content">
-                <div className="ui header">Humidity</div>
-                <div className="description">{`${humidity} %`}</div>
-              </div>
+            <div>
+              <h2>Visibility</h2>
+              <p>{`${visibility} miles`}</p>
             </div>
-            <div className="item">
-              <div className="content">
-                <div className="ui header">Pressure</div>
-                <div className="description">{`${pressure} Millibars`}</div>
-              </div>
+            <div>
+              <h2>Ozone</h2>
+              <p>{`${ozone} dobsons`}</p>
             </div>
-            <div className="item">
-              <div className="content">
-                <div className="ui header">WindSpeed</div>
-                <div className="description">{`${windSpeed} Miles per Hour`}</div>
-              </div>
-            </div>
-            <div className="item">
-              <div className="content">
-                <div className="ui header">Visibility</div>
-                <div className="description">{`${visibility} Miles`}</div>
-              </div>
-            </div>
-            <div className="item">
-              <div className="content">
-                <div className="ui header">Ozone</div>
-                <div className="description">{`${ozone} Dobsons`}</div>
-              </div>
-            </div>
+          </div>
+          <div className="item images">
+            <img
+              src={
+                photo1.urls.raw +
+                '&auto=format&w=250&h=200&auto=compress&fit=clamp'
+              }
+              alt={photo1.alt_description}
+            />
+            <img
+              src={
+                photo2.urls.raw +
+                '&auto=format&w=250&h=200&auto=compress&fit=clamp'
+              }
+              alt={photo2.alt_description}
+            />
+            <img
+              src={
+                photo3.urls.raw +
+                '&auto=format&w=250&h=200&auto=compress&fit=clamp'
+              }
+              alt={photo3.alt_description}
+            />
+            <img
+              src={
+                photo4.urls.raw +
+                '&auto=format&w=250&h=200&auto=compress&fit=clamp'
+              }
+              alt={photo4.alt_description}
+            />
           </div>
         </div>
       );
     } else {
       return (
-        <div class="ui segment" style={{ height: '30rem' }}>
+        <div className="ui segment" style={{ height: '30rem' }}>
           <p></p>
-          <div class="ui active dimmer">
-            <div class="ui loader"></div>
+          <div className="ui active dimmer">
+            <div className="ui loader"></div>
           </div>
         </div>
       );
@@ -115,9 +134,11 @@ class CityDetail extends React.Component {
 
   render() {
     console.log('weather', this.props.weather.currently);
+    console.log('photos', this.props.photos);
 
     return (
-      <div className="ui container">
+      // <div className="ui container">
+      <div className="containerCity">
         <div>{this.renderList()}</div>
       </div>
     );
@@ -127,6 +148,7 @@ class CityDetail extends React.Component {
 const mapStateToProps = (state) => {
   return {
     weather: state.weather,
+    photos: state.photos,
   };
 };
 

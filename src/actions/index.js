@@ -1,5 +1,6 @@
 import opencage from '../api/opencage';
 import darksky from '../api/darksky';
+import unsplash from '../api/unsplash';
 
 // Action Creator List Cities
 export const fetchPosts = (formValue) => {
@@ -28,6 +29,20 @@ export const fetchWeather = (selectedPlace) => {
     dispatch({
       type: 'FETCH_WEATHER',
       payload: response.data,
+    });
+  };
+};
+
+// Action Creator Photos (unsplash)
+export const fetchPhotos = (selectedPlace) => {
+  console.log('selectedPlace in Photos', selectedPlace.components.city);
+  const city = selectedPlace.components.city;
+  return async (dispatch) => {
+    const response = await unsplash.get(`/search/photos?query=${city}`);
+
+    dispatch({
+      type: 'FETCH_PHOTOS',
+      payload: response.data.results,
     });
   };
 };

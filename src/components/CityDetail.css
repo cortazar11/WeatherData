@@ -1,3 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
 body {
   font-size: 1.3rem;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.containerCity {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.wrapper {
+  display: flex;
+}
+
+.item {
+  border-radius: 15px;
+}
+
+.weather-details {
+  border: red solid 2px;
+  width: 40%;
+  padding-left: 1rem;
+}
+
+.images {
+  width: 60%;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 0rem;
+}
+
+p {
+  margin-bottom: 2rem !important;
+}
+img {
+  border: #98803b 10px solid;
+}
+
+@media only screen and (min-width: 992px) {
+  .images {
+    display: grid;
+    /* border: green solid 2px; */
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+  }
 }
