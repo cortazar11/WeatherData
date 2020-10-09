@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchPosts, fetchWeather, fetchPhotos } from '../actions';
+import { fetchPosts, fetchWeather, fetchPhotos, fetchTerm } from '../actions';
 import { Link } from 'react-router-dom';
 
 class PlacesList extends React.Component {
@@ -13,7 +13,8 @@ class PlacesList extends React.Component {
               className="ui segment"
               onClick={() =>
                 this.props.fetchWeather(place.geometry) &&
-                this.props.fetchPhotos(place)
+                this.props.fetchPhotos(place) &&
+                this.props.fetchTerm(place)
               }
             >
               {place.formatted}
@@ -42,4 +43,5 @@ export default connect(mapStateToProps, {
   fetchPosts,
   fetchWeather,
   fetchPhotos,
+  fetchTerm,
 })(PlacesList);

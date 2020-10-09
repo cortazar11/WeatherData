@@ -16,6 +16,14 @@ export const fetchPosts = (formValue) => {
   };
 };
 
+// Action Creator City Term
+export const fetchTerm = (selectedPlace) => {
+  return {
+    type: 'FETCH_TERM',
+    payload: selectedPlace,
+  };
+};
+
 // Action Creator Weather
 export const fetchWeather = (selectedPlace) => {
   const lat = selectedPlace ? selectedPlace.lat : null;
@@ -39,6 +47,7 @@ export const fetchPhotos = (selectedPlace) => {
   const city = selectedPlace.components.city;
   return async (dispatch) => {
     const response = await unsplash.get(`/search/photos?query=${city}`);
+    console.log('response', response);
 
     dispatch({
       type: 'FETCH_PHOTOS',

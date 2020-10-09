@@ -8,7 +8,6 @@ import { fetchPosts } from '../actions';
 
 class SearchBar extends React.Component {
   renderInput(formProps) {
-    console.log('formProps', formProps);
     return (
       <div className="field input-wrapper">
         <label htmlFor="city">{formProps.label}</label>

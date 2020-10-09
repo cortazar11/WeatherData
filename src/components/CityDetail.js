@@ -1,39 +1,72 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+
 import moment from 'moment';
+
 import './CityDetail.css';
 
 class CityDetail extends React.Component {
+  state = {
+    isToogle: true,
+    buttonDisable: false,
+  };
+
+  handleClick = (e) => {
+    console.log('algo aqui', e.target);
+    this.setState((prevState) => {
+      return {
+        isToogle: !prevState.isToogle,
+        buttonDisable: !prevState.buttonDisable,
+      };
+    });
+  };
+
   renderList() {
+    const styleButtonRed={color: 'red'}
+    const styleButtonBlack={color: 'black'}
     const results = this.props.weather;
     const resultsPhotos = this.props.photos;
+
     const photo1 = resultsPhotos[0];
     const photo2 = resultsPhotos[1];
     const photo3 = resultsPhotos[2];
     const photo4 = resultsPhotos[3];
 
-    console.log('photo1', photo1);
     const timeUnix = results.currently ? results.currently.time : null;
     const calendar = moment
       .unix(timeUnix)
       .format('dddd, MMMM Do YYYY, h:mm:ss a');
     const summary = results.currently ? results.currently.summary : null;
     const icon = results.currently ? results.currently.icon : null;
-    const temperature = results.currently
+    const temperatureF = results.currently
       ? results.currently.temperature
       : null;
+    const temperatureC = (((parseFloat(temperatureF) - 32) * 5) / 9).toFixed(2);
+    const temperature = this.state.isToogle ? temperatureC : temperatureF;
+    console.log('temperatureC', temperatureC);
     const humidity = results.currently
-      ? results.currently.humidity * 100
+      ? (results.currently.humidity * 100).toFixed(2)
       : null;
     const pressure = results.currently ? results.currently.pressure : null;
     const windSpeed = results.currently ? results.currently.windSpeed : null;
     const visibility = results.currently ? results.currently.visibility : null;
     const ozone = results.currently ? results.currently.ozone : null;
+    let city = '';
+    let county = '';
+    let country = '';
+    if (this.props.term.components) {
+      city = this.props.term.components.city;
+      county =
+        this.props.term.components.county ||
+        this.props.term.components.province;
+      country = this.props.term.components.country;
+    }
+
     if (
       timeUnix &&
       summary &&
-      temperature &&
+      temperatureF &&
       humidity &&
       pressure &&
       windSpeed &&
@@ -46,26 +79,49 @@ class CityDetail extends React.Component {
     ) {
       return (
         <div className="wrapper">
-          {/* <Link to="/">
-            <button
-              className="ui button"
-              // onClick={() => window.location.reload()}
-            >
-              Back
-            </button>
-          </Link> */}
-
+          <div className="header">
+            <div className="city-time">
+              <h1
+                style={{ color: '#263922' }}
+              >{`${city} (${county}, ${country})`}</h1>
+              <h3>{calendar}</h3>
+            </div>
+            
+            <a href="/">
+              <button className="ui button">Back</button>
+            </a>
+            
+          </div>
+          
           <div className="item weather-details">
-            <h2>
-              <i className="fas fa-cloud-rain"></i>Rain
-            </h2>
+            <div></div>
             <div>
               <h2>Summary</h2>
               <p>{summary}</p>
             </div>
             <div>
               <h2>Temperature</h2>
-              <p>{`${temperature}  ºF (degrees Fahrenheit)`}</p>
+              <p>
+                {`${temperature}`} &nbsp;
+                <button
+                  className="button-sm"
+                  disabled={!this.state.buttonDisable}
+                  onClick={this.handleClick}
+                  style={!this.state.buttonDisable? {color: 'black'}: {color: "red",cursor: 'pointer'}}
+                >
+                  ºC &nbsp;
+                </button>
+                | &nbsp;
+                <button
+                  style={this.state.buttonDisable? {color: "black"} : {color: 'red',cursor: 'pointer'}}
+                  className="button-sm"
+                  disabled={this.state.buttonDisable}
+                  onClick={this.handleClick}
+                 
+                >
+                  ºF
+                </button>
+              </p>
             </div>
             <div>
               <h2>Humidity</h2>
@@ -122,7 +178,7 @@ class CityDetail extends React.Component {
       );
     } else {
       return (
-        <div className="ui segment" style={{ height: '30rem' }}>
+        <div className="containerCity">
           <p></p>
           <div className="ui active dimmer">
             <div className="ui loader"></div>
@@ -133,11 +189,10 @@ class CityDetail extends React.Component {
   }
 
   render() {
-    console.log('weather', this.props.weather.currently);
+    console.log('weather', this.props.weather);
     console.log('photos', this.props.photos);
-
+    console.log('term', this.props.term.components);
     return (
-      // <div className="ui container">
       <div className="containerCity">
         <div>{this.renderList()}</div>
       </div>
@@ -149,6 +204,7 @@ const mapStateToProps = (state) => {
   return {
     weather: state.weather,
     photos: state.photos,
+    term: state.term,
   };
 };
 
